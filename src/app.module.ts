@@ -4,20 +4,11 @@ import { AppService } from './app.service';
 import { Modules } from './modules';
 import { SparqlService } from './modules/sparql/sparql.service';
 import { HttpModule } from '@nestjs/axios';
-import { commonAppConfig } from './configs';
 
 @Module({
-  imports: [
-    ...Modules,
-    HttpModule.register({
-      baseURL: commonAppConfig.sparql_endpoint,
-      timeout: 300000,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }),
-  ],
+  imports: [...Modules],
   controllers: [AppController],
   providers: [AppService, SparqlService],
+  exports: [HttpModule],
 })
 export class AppModule {}

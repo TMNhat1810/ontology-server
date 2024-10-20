@@ -16,7 +16,6 @@ export class SparqlService {
           query: this.prefix + query,
         }),
       );
-
       return response.data.results.bindings;
     } catch (error) {
       throw new Error(`SPARQL query failed: ${error.message}`);

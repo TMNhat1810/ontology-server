@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
 import { SparqlService } from './sparql.service';
+import { SparqlHttpModule } from '../http';
 
 @Module({
-  imports: [HttpModule],
+  imports: [SparqlHttpModule],
   providers: [SparqlService],
   exports: [SparqlService],
 })
