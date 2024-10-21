@@ -9,12 +9,12 @@ export class AuthService {
 
   async loginUser(loginUserDto: LoginUserDto): Promise<any> {
     const { username, password } = loginUserDto;
-    const query = `SELECT DISTINCT ?user ?prop ?data
+    const query = `SELECT DISTINCT ?user ?prop ?data ?role
         WHERE 
         {
-            ?user a ?type ; db:username "${username}"^^xsd:string; db:password "${password}" ^^xsd:string.
-            ?type rdfs:subClassOf db:User .
-            ?x ?prop ?c.
+            ?user a ?role ; db:username "${username}"^^xsd:string; db:password "${password}" ^^xsd:string.
+            ?role rdfs:subClassOf db:User .
+            ?user ?prop ?c.
             ?prop rdf:type owl:DatatypeProperty
 
             FILTER(?prop != rdf:type).
@@ -24,9 +24,10 @@ export class AuthService {
 
     if (response.length === 0) return new NotFoundException();
 
-    const user = { user: '', username: '', password: '' };
+    const user = { user: '', username: '', password: '', role: '' };
+    user.user = parseValue(response[0].user);
+    user.role = parseValue(response[0].role);
     response.forEach((item) => {
-      user['user'] = parseValue(item.user);
       user[parseValue(item.prop)] = parseValue(item.data);
     });
     delete user.password;
