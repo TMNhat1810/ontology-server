@@ -21,4 +21,6 @@ export class SparqlService {
       throw new Error(`SPARQL query failed: ${error.message}`);
     }
   }
+
+  //test 
 }
