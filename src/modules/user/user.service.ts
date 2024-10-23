@@ -81,4 +81,31 @@ export class UserService {
       return user;
     });
   }
+
+  async getStudentHasClass(name: string) {
+    const query = `SELECT DISTINCT ?student ?prop ?data
+                    WHERE 
+                    {
+                      db:${name} db:attends ?student.	
+                      ?student ?prop ?c.
+                      filter(?prop != rdf:type).
+
+                      bind(STR(?c) as ?data)
+                    }`;
+  
+    const response = await this.sparql.query(query);
+  
+    if (response.length === 0) return new NotFoundException();
+  
+    const students = new Set<string>(); 
+    response.forEach((item) => {
+      let { student } = item;
+      student = parseValue(student);
+      students.add(student);
+    });
+    return Array.from(students);
+  }
+
+
+
 }

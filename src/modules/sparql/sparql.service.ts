@@ -9,7 +9,7 @@ export class SparqlService {
   private readonly prefix: string =
     'PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX db: <http://www.semanticweb.org/minhn/ontologies/2024/9/uni/>\n';
 
-  async query(query: string): Promise<any> {
+  async query(query: string): Promise<any[] | any> {
     try {
       const response = await lastValueFrom(
         this.httpService.post('', {
@@ -22,5 +22,5 @@ export class SparqlService {
     }
   }
 
-  //test 
+  
 }

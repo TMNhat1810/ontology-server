@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 
@@ -15,5 +15,10 @@ export class UserController {
   @Get('/lecturer')
   async getAllLecturer() {
     return this.userService.getAllLecturer();
+  }
+
+  @Get('/class/:name')
+  async getStudentHasClass(@Param('name')name: string) {
+    return this.userService.getStudentHasClass(name);
   }
 }
