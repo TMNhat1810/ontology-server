@@ -17,8 +17,14 @@ export class UserController {
     return this.userService.getAllLecturer();
   }
 
-  @Get('/class/:name')
-  async getStudentHasClass(@Param('name')name: string) {
+  @Get('/class/:nameStudent')
+  async getStudentHasClass(@Param('nameStudent')name: string) {
     return this.userService.getStudentHasClass(name);
   }
+
+  @Get('/major/:nameStudent')
+  async getStudentHasMajor(@Param('nameStudent')name: string) {
+    return this.userService.getStudentHasMajor(name);
+  }
+
 }

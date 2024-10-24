@@ -17,31 +17,48 @@ export class ProgramService {
                 FILTER(?prop != rdf:type).
                 BIND(STR(?c) as ?data)
             }`;
-  
+
     const response = await this.sparql.query(query);
-  
+
     if (response.length === 0) return new NotFoundException();
-  
-    const programs = {}; 
-  
+
+    const programs = {};
+
     response.forEach((item) => {
       let { program, prop, data } = item;
       program = parseValue(program);
       prop = parseValue(prop);
       data = parseValue(data);
-  
+
       const normalizedProgram = program.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '');
-  
+
       if (!programs[normalizedProgram]) {
-        programs[normalizedProgram] = { name: program }; 
+        programs[normalizedProgram] = { name: program };
       }
       programs[normalizedProgram][prop] = data;
     });
-  
-    return Object.values(programs); 
+
+    return Object.values(programs);
   }
 
+  async getProgramHasSubject(name: string) {
+    const query = `SELECT DISTINCT *
+            WHERE 
+            {
+                db:${name} db:hasSubject ?subject
+            }`;
 
-  
+    const response = await this.sparql.query(query);
 
+    if (response.length === 0) return new NotFoundException();
+
+    const subjects = new Set<string>();
+    response.forEach((item) => {
+      let { subject } = item;
+      subject = parseValue(subject);
+      subjects.add(subject);
+    });
+    return Array.from(subjects);
+  }
+  subjects;
 }

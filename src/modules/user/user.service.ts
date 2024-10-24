@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SparqlService } from '../sparql/sparql.service';
 import { parseValue } from 'src/utils';
+import { response } from 'express';
 
 @Injectable()
 export class UserService {
@@ -106,6 +107,25 @@ export class UserService {
     return Array.from(students);
   }
 
+  async getStudentHasMajor(name: string) {
+    const query = `SELECT DISTINCT *
+            WHERE 
+            {
+                db:${name} db:hasMajor ?major
+            }`;
+  
+    const response = await this.sparql.query(query);
+  
+    if (response.length === 0) return new NotFoundException();
+  
+    const majors = new Set<string>(); 
+    response.forEach((item) => {
+      let { major } = item;
+      major = parseValue(major);
+      majors.add(major);
+    });
+    return  Array.from(majors);
+  }
 
 
 }

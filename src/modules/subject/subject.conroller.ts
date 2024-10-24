@@ -12,8 +12,10 @@ export class SubjectController {
     return this.subjectService.getAllSubject();
   }
 
-  @Get('/:name')
-  async getAllLecturer(@Param('name') name: string) {
+  @Get('/:typeSubject')
+  async getAllLecturer(@Param('typeSubject') name: string) {
     return this.subjectService.getSubjectByName(name);
   }
+
+
 }

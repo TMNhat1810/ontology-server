@@ -40,4 +40,24 @@ export class MajorService {
 
     return Object.values(majors);
   }
+
+  async getMajorHasProgram(name: string) {
+    const query = `SELECT DISTINCT *
+            WHERE 
+            {
+                db:${name} db:hasProgram ?program
+            }`;
+  
+    const response = await this.sparql.query(query);
+  
+    if (response.length === 0) return new NotFoundException();
+  
+    const programs = new Set<string>(); 
+    response.forEach((item) => {
+      let { program } = item;
+      program = parseValue(program);
+      programs.add(program);
+    });
+    return  Array.from(programs);
+  }
 }

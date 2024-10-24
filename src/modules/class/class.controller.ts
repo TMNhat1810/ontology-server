@@ -14,8 +14,8 @@ export class ClassController {
     return this.classService.getAllClass();
   }
 
-  @Get('/:name')
-  async getClassByTeacher(@Param('name')name: string){
+  @Get('/:nameTeacher')
+  async getClassByTeacher(@Param('nameTeacher')name: string){
     return this.classService.getClassByTecher(name);
   }
 
