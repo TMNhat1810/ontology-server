@@ -13,8 +13,8 @@ export class ProgramController {
     return this.programService.getAllProgram();
   }
 
-  @Get('/:nameSubject')
-  async getAllLecturer(@Param('nameSubject') name: string) {
+  @Get('/:name')
+  async getAllLecturer(@Param('name') name: string) {
     return this.programService.getProgramHasSubject(name);
   }
 

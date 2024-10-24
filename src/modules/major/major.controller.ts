@@ -13,8 +13,8 @@ export class MajorController {
     return this.majorService.getAllMajor();
   }
 
-  @Get('/:program')
-  async getAllLecturer(@Param('program') name: string) {
+  @Get('/:name')
+  async getAllLecturer(@Param('name') name: string) {
     return this.majorService.getMajorHasProgram(name);
   }
 
